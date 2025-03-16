@@ -10,11 +10,9 @@ dotenv.config();
 const app = express();
 
 app.use(cors());
-
+app.use(express.json());
 app.use(postRoutes);
 app.use(userRoutes);
-
-app.use(express.json());
 
 const start = async () => {
 
