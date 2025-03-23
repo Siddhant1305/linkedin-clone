@@ -7,6 +7,7 @@ import PDFDocument from 'pdfkit';
 import fs from 'fs';
 import ConnectionRequest from "../models/connections.model.js";
 import { connections } from "mongoose";
+import Post from "../models/post.model.js";
 
 const convertUserDataTOPDF = async (userData) => {
     const doc = new PDFDocument();

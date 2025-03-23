@@ -36,3 +36,46 @@ export const createPost = async (req, res) => {
         return res.status(500).json({ message: error.message })
     }
 }
+
+
+export const getAllPosts = async (req, res) => {
+
+    try {
+        const posts = await Post.find()
+        .populate('userId', 'name username email profilePicture');
+
+        return res.json({ posts})
+
+    } catch (error) {
+        return res.status(500).json({ message: error.message })
+    }
+}
+
+export const deletePost = async (req, res) => {
+
+    const { token } = req.body;
+
+    try {
+
+        const user = await User
+            .findOne({ token: token })
+            .select("_id");
+
+        if(!user) {
+            return res.status(404).json({ message: "User Not Found" })
+        }
+
+        const post = await Post.findOne({ _id: post_id });
+
+        if(post.userId.toString() !== user._id.toString()) {
+            return res.status(401).json({ message: "Unauthorized"})
+        }
+
+        await Post.deletePost({ _id: post_id });
+
+        return res.json({ message: "Post Deleted" })
+
+    } catch (error) {
+        return res.status(500).json({ message: error.message })
+    }
+}
